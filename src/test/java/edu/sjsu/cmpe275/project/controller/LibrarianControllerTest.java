@@ -1,12 +1,14 @@
 package edu.sjsu.cmpe275.project.controller;
 
 import edu.sjsu.cmpe275.project.model.Book;
+import edu.sjsu.cmpe275.project.model.BookCopy;
 import edu.sjsu.cmpe275.project.model.User;
 import edu.sjsu.cmpe275.project.service.AlertService;
 import edu.sjsu.cmpe275.project.service.BookCopyService;
 import edu.sjsu.cmpe275.project.service.BookService;
 import edu.sjsu.cmpe275.project.service.UserService;
 import edu.sjsu.cmpe275.project.util.CustomTimeService;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class LibrarianControllerTest
@@ -71,8 +74,58 @@ public class LibrarianControllerTest
     @Test
     public void testRenderBookRegistration(){
         ModelMap modelMap = mock(ModelMap.class);
-        verify(modelMap, times(1)).addAttribute("books", any(Book.class));
-        customDate.
+        librarianController.renderBookRegistration(modelMap);
+        verify(modelMap, times(1)).addAttribute(eq("book"), any(Book.class));
+        verify(myTimeServiceMock, times(1)).setDate(any(Date.class));
+    }
+
+    @Test
+    public void testRenderSearchResults(){
+        ModelMap modelMap = mock(ModelMap.class);
+        String txtSearch = "Books";
+        List<Book> books = new ArrayList<Book>();
+        books.add(new Book());
+        books.add(new Book());
+        when(bookServiceMock.findByTitle(txtSearch)).thenReturn(books);
+
+        User user = new User();
+        user.setFirstName("abc");
+        when(userServiceMock.findByEmail("abc@xyz.com")).thenReturn(user);
+        Date date = new Date();
+        when(myTimeServiceMock.getDate()).thenReturn(date);
+        librarianController.renderSearchResults(txtSearch, modelMap);
+
+        verify(modelMap, times(1)).addAttribute("books", books);
+        verify(modelMap, times(1)).addAttribute("user", "abc");
+        verify(modelMap, times(1)).addAttribute("dateTime", date);
+
+    }
+
+    @Test
+    public void testRegisterNewBookWithValidCopiesAndValidBookId(){
+        Book book = new Book();
+        when(bookServiceMock.saveBook(book)).thenReturn(10);
+        when(bookServiceMock.findById("10")).thenReturn(book);
+        librarianController.registerNewBook(book, null, null, "5");
+        verify(bookCopyServiceMock, times(5)).saveCopy(any(BookCopy.class));
+    }
+    @Test
+    public void testRegisterNewBookWithInvalidCopiesAndValidBookId(){
+        Book book = new Book();
+        when(bookServiceMock.saveBook(book)).thenReturn(10);
+        when(bookServiceMock.findById("10")).thenReturn(book);
+        librarianController.registerNewBook(book, null, null, "invalidStringValue");
+        verify(bookCopyServiceMock, times(1)).saveCopy(any(BookCopy.class));
+    }
+    @Test
+    public void testRegisterNewBookWithInvalidBookId(){
+        Book book = new Book();
+        when(bookServiceMock.saveBook(book)).thenReturn(-1);
+        when(bookServiceMock.findById("-1")).thenReturn(book);
+        String returnValue = librarianController.registerNewBook(book, null, null, "5");
+        verify(bookCopyServiceMock, times(0)).saveCopy(any(BookCopy.class));
+        assertEquals("Error", returnValue);
+
     }
 
 }

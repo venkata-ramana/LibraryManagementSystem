@@ -95,8 +95,8 @@ public class LibrarianController {
 	 */
 	@RequestMapping(value = "/new-book", method = RequestMethod.GET)
 	public String renderBookRegistration(ModelMap model) {
-		Book books = new Book();
-		model.addAttribute("book", books);
+		Book book = new Book();
+		model.addAttribute("book", book);
 		Calendar myCal = Calendar.getInstance();
 		myCal.set(Calendar.YEAR, 2016);
 		myCal.set(Calendar.MONTH, 11);
