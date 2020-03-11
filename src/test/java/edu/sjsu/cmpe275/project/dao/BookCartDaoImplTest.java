@@ -5,6 +5,7 @@ import edu.sjsu.cmpe275.project.model.BookCart;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.times;
@@ -64,22 +66,32 @@ public class BookCartDaoImplTest {
 
     @Test
     public void testRemove() {
+        // Setup
         BookCart cart = new BookCart();
+
+        // Act
         bookCartDaoImpl.remove(cart);
 
+        // Assert
         verify(session, times(1)).delete(any());
     }
 
     @Test
     public void testVerifySuccessWhenFindByUserId() {
-        when(session.createCriteria((Class) anyObject())).thenReturn(criteria);
+        // Setup
         BookCart cart1 = new BookCart();
         List<BookCart> bookCartList = new ArrayList<>();
         bookCartList.add(cart1);
-        when(criteria.list()).thenReturn(bookCartList);
-        bookCartDaoImpl.findByUserId(123);
 
+        when(session.createCriteria((Class) anyObject())).thenReturn(criteria);
+        when(criteria.list()).thenReturn(bookCartList);
+
+        // Act
+        List<BookCart> result = bookCartDaoImpl.findByUserId(123);
+
+        // Verify
         verify(criteria, times(1)).list();
+        assertEquals(bookCartList, result);
     }
 
     // TODO(rmk): 2020-03-11  Add test to verify logger message for FindByUserId when list is null.
