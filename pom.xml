@@ -12,7 +12,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<!-- Spring -->
-		<springframework.version>4.2.5.RELEASE</springframework.version>
+		<springframework.version>5.2.4.RELEASE</springframework.version>
 		<springsecurity.version>4.2.0.RELEASE</springsecurity.version>
 		<spring-data-jpa.version>1.8.2.RELEASE</spring-data-jpa.version>
 
@@ -39,7 +39,7 @@
 		<!-- util -->
 		<guava.version>19.0</guava.version>
 		<commons-lang3.version>3.4</commons-lang3.version>
-		<jackson.version>2.6.4</jackson.version>
+		<jackson.version>2.9.10.3</jackson.version>
 		
 		<!-- Json parser -->
 		<org.json.version>20160810</org.json.version>

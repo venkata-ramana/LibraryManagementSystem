@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate4.HibernateTransactionManager;
-import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+//import org.springframework.orm.hibernate4.HibernateTransactionManager;
+//import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
@@ -27,14 +27,14 @@ public class HibernateConfiguration {
 	@Autowired
 	private Environment environment;
 
-	@Bean
-	public LocalSessionFactoryBean sessionFactory() {
-		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-		sessionFactory.setDataSource(dataSource());
-		sessionFactory.setPackagesToScan(new String[] { "edu.sjsu.cmpe275.project.model" });
-		sessionFactory.setHibernateProperties(hibernateProperties());
-		return sessionFactory;
-	}
+//	@Bean
+//	public LocalSessionFactoryBean sessionFactory() {
+//		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+//		sessionFactory.setDataSource(dataSource());
+//		sessionFactory.setPackagesToScan(new String[] { "edu.sjsu.cmpe275.project.model" });
+//		sessionFactory.setHibernateProperties(hibernateProperties());
+//		return sessionFactory;
+//	}
 
 	@Bean
 	public DataSource dataSource() {
@@ -57,13 +57,13 @@ public class HibernateConfiguration {
 		return properties;
 	}
 
-	@Bean
-	@Autowired
-	public HibernateTransactionManager transactionManager(SessionFactory s) {
-		HibernateTransactionManager txManager = new HibernateTransactionManager();
-		txManager.setSessionFactory(s);
-		return txManager;
-	}
+//	@Bean
+//	@Autowired
+//	public HibernateTransactionManager transactionManager(SessionFactory s) {
+//		HibernateTransactionManager txManager = new HibernateTransactionManager();
+//		txManager.setSessionFactory(s);
+//		return txManager;
+//	}
 
 	protected Properties additionalProperties() {
 		final Properties hibernateProperties = new Properties();

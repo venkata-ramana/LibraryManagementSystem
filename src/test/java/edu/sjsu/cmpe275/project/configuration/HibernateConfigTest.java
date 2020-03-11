@@ -12,8 +12,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate4.HibernateTransactionManager;
-import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+//import org.springframework.orm.hibernate4.HibernateTransactionManager;
+//import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
@@ -38,21 +38,21 @@ public class HibernateConfigTest {
 		return dataSource;
 	}
 
-	@Bean(name = "sessionFactory")
-	public LocalSessionFactoryBean sessionFactory() {
-		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-		sessionFactory.setDataSource(dataSource());
-		sessionFactory.setPackagesToScan(new String[] { "edu.sjsu.cmpe275.project.model" });
-		sessionFactory.setHibernateProperties(hibernateProperties());
-		return sessionFactory;
-	}
-
-	@Bean(name = "transactionManager")
-	public HibernateTransactionManager transactionManager(SessionFactory s) {
-		HibernateTransactionManager txManager = new HibernateTransactionManager();
-		txManager.setSessionFactory(s);
-		return txManager;
-	}
+//	@Bean(name = "sessionFactory")
+//	public LocalSessionFactoryBean sessionFactory() {
+//		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+//		sessionFactory.setDataSource(dataSource());
+//		sessionFactory.setPackagesToScan(new String[] { "edu.sjsu.cmpe275.project.model" });
+//		sessionFactory.setHibernateProperties(hibernateProperties());
+//		return sessionFactory;
+//	}
+//
+//	@Bean(name = "transactionManager")
+//	public HibernateTransactionManager transactionManager(SessionFactory s) {
+//		HibernateTransactionManager txManager = new HibernateTransactionManager();
+//		txManager.setSessionFactory(s);
+//		return txManager;
+//	}
 
 	@SuppressWarnings("serial")
 	private Properties hibernateProperties() {
