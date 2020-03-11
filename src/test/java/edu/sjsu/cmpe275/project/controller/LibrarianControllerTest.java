@@ -1,8 +1,89 @@
 package edu.sjsu.cmpe275.project.controller;
 
+import edu.sjsu.cmpe275.project.model.Book;
+import edu.sjsu.cmpe275.project.model.User;
+import edu.sjsu.cmpe275.project.service.AlertService;
+import edu.sjsu.cmpe275.project.service.BookCopyService;
+import edu.sjsu.cmpe275.project.service.BookService;
+import edu.sjsu.cmpe275.project.service.UserService;
+import edu.sjsu.cmpe275.project.util.CustomTimeService;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import static org.mockito.Mockito.*;
+
 public class LibrarianControllerTest
 {
+    @Mock
+    private AlertService alertServiceMock;
 
+    @Mock
+    private BookCopyService bookCopyServiceMock;
+
+    @Mock
+    private UserService userServiceMock;
+
+    @Mock
+    private BookService bookServiceMock;
+
+    @Mock
+    private CustomTimeService myTimeServiceMock;
+
+    @InjectMocks
+    private LibrarianControllerStub librarianController;
+
+    @Before
+    public void beforeAllTests()
+    {
+        MockitoAnnotations.initMocks(this);
+
+    }
+
+    @Test
+    public void testRenderIndex()
+    {
+        ModelMap modelMap = mock(ModelMap.class);
+        List<Book> books = new ArrayList<Book>();
+        books.add(new Book());
+        books.add(new Book());
+        when(bookServiceMock.findAllBooks()).thenReturn(books);
+        User user = new User();
+        user.setFirstName("abc");
+        when(userServiceMock.findByEmail("abc@xyz.com")).thenReturn(user);
+        Date date = new Date();
+        when(myTimeServiceMock.getDate()).thenReturn(date);
+        librarianController.renderIndex(modelMap);
+        verify(modelMap, times(1)).addAttribute("books", books);
+        verify(modelMap, times(1)).addAttribute("user", "abc");
+        verify(modelMap, times(1)).addAttribute("dateTime", date);
+
+    }
+
+    @Test
+    public void testRenderBookRegistration(){
+        ModelMap modelMap = mock(ModelMap.class);
+        verify(modelMap, times(1)).addAttribute("books", any(Book.class));
+        customDate.
+    }
+
+}
+
+class LibrarianControllerStub extends LibrarianController
+{
+
+    @Override
+    protected String getPrincipal() {
+        return "abc@xyz.com";
+    }
 }
 
 //package edu.sjsu.cmpe275.project.controller;

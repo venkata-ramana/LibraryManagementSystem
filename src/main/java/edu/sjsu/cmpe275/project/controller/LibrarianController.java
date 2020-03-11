@@ -60,14 +60,14 @@ public class LibrarianController {
 	@Autowired
 	private CustomTimeService myTimeService;
 
-	public LibrarianController(BookCopyService bookCopyService, AlertService alertService, UserService userService, BookService bookService, CustomTimeService myTimeService)
-	{
-		this.bookCopyService = bookCopyService;
-		this.alertService = alertService;
-		this.userService = userService;
-		this.bookService = bookService;
-		this.myTimeService = myTimeService;
-	}
+//	public LibrarianController(BookCopyService bookCopyService, AlertService alertService, UserService userService, BookService bookService, CustomTimeService myTimeService)
+//	{
+//		this.bookCopyService = bookCopyService;
+//		this.alertService = alertService;
+//		this.userService = userService;
+//		this.bookService = bookService;
+//		this.myTimeService = myTimeService;
+//	}
 
 
 
@@ -399,7 +399,7 @@ public class LibrarianController {
 	 * Get the UserName of the logged-in user.
 	 * @return the UserName of the logged-in user
 	 */
-	private String getPrincipal() {
+	protected String getPrincipal() {
 		String userName = null;
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
