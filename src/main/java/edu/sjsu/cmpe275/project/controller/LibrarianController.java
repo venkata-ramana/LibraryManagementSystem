@@ -60,6 +60,16 @@ public class LibrarianController {
 	@Autowired
 	private CustomTimeService myTimeService;
 
+	public LibrarianController(BookCopyService bookCopyService, AlertService alertService, UserService userService, BookService bookService, CustomTimeService myTimeService)
+	{
+		this.bookCopyService = bookCopyService;
+		this.alertService = alertService;
+		this.userService = userService;
+		this.bookService = bookService;
+		this.myTimeService = myTimeService;
+	}
+
+
 
 	/**
 	 * Renders the home page for the librarian.

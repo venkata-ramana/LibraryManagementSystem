@@ -37,6 +37,7 @@ public class AlertServiceImpl implements AlertService {
 	@Autowired
 	private NotificationService notificationService;
 
+
 	@Override
 	public void sendAlerts(Date testDate, boolean debug) {
 		List<Map<Checkout, Integer>> checkoutCopiesDue = null;
