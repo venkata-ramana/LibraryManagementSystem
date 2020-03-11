@@ -38,9 +38,16 @@ public class UserServiceImplTest {
 
     User chris;
 
+    Calendar cal;
+
+
     @Before
     public void SetUp() {
         MockitoAnnotations.initMocks(this);
+
+        cal = Calendar.getInstance();
+        cal.setTime(new Date());
+
         chris = new User();
         chris.setFirstName("Chris");
         chris.setLastName("Hemsworth");
@@ -74,9 +81,6 @@ public class UserServiceImplTest {
     @Test
     public void testVerificationToken_WithExpiredToken_ReturnsExpiredTokenMessage() {
         // Arrange
-
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date());
         cal.add(Calendar.DATE, -1);
 
         VerificationToken token = new VerificationToken();
@@ -95,9 +99,6 @@ public class UserServiceImplTest {
     @Test
     public void testVerificationToken_WithValidToken_ReturnsValidTokenMessage() {
         // Arrange
-
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date());
         cal.add(Calendar.DATE, 1);
 
         VerificationToken token = new VerificationToken();
@@ -111,5 +112,32 @@ public class UserServiceImplTest {
 
         // Assert
         assertEquals("valid", result);
+    }
+
+    @Test
+    public void testFindByTokenWithValidToken() {
+        // Arrange
+        cal.add(Calendar.DATE, 1);
+        VerificationToken token = new VerificationToken();
+        token.setToken("testtoken");
+        token.setExpiryDate(cal.getTime());
+        token.setUser(chris);
+        when(tokenRepository.findByToken("testtoken")).thenReturn(token);
+
+        // Act
+        User result = userService.findByToken("testtoken");
+
+        // Assert
+        assertEquals(chris.getFirstName(), result.getFirstName());
+        assertEquals(chris.getLastName(), result.getLastName());
+    }
+
+    @Test
+    public void testFindByTokenWithInValidToken() {
+        // Act
+        User result = userService.findByToken("testtoken");
+
+        // Assert
+        assertNull(result);
     }
 }
