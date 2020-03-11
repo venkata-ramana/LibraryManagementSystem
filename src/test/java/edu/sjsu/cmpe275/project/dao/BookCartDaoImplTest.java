@@ -5,20 +5,28 @@ import edu.sjsu.cmpe275.project.model.BookCart;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Example;
 import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.junit.Test;
 import org.mockito.MockitoAnnotations;
-import org.slf4j.Logger;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.test.context.support.WithMockUser;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
+import static org.mockito.MockitoAnnotations.*;
+import static org.slf4j.LoggerFactory.*;
+
+import org.slf4j.Logger;
 
 public class BookCartDaoImplTest {
     @Mock
@@ -32,13 +40,7 @@ public class BookCartDaoImplTest {
 
     @Before
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
-        Logger logger = PowerMockito.mock(Logger.class);
-
-        PowerMockito.mockStatic(LoggerFactory.class);
-        PowerMockito.when(LoggerFactory.getLogger(Example.class)).thenReturn(logger);
-
-
+        initMocks(this);
         when(sessionFactory.getCurrentSession()).thenReturn(session);
     }
 
@@ -57,6 +59,7 @@ public class BookCartDaoImplTest {
         bookCartDaoImpl.insert(cart);
 
         verify(session, times(1)).save(any());
+        // TODO(rmk): 2020-03-11  Verify the logger error method is called.
     }
 
     @Test
@@ -79,17 +82,5 @@ public class BookCartDaoImplTest {
         verify(criteria, times(1)).list();
     }
 
-    /*@Test
-    public void testFindByUserId() {
-        when(session.createCriteria((Class) anyObject())).thenReturn(criteria);
-        BookCart cart1 = new BookCart();
-        List<BookCart> bookCartList = new ArrayList<>();
-        bookCartList.add(cart1);
-        when(criteria.list()).thenReturn(bookCartList);
-        bookCartDaoImpl.findByUserId(123);
-
-        verify(criteria, times(1)).list();
-    }*/
-
-
+    // TODO(rmk): 2020-03-11  Add test to verify logger message for FindByUserId when list is null.
 }
