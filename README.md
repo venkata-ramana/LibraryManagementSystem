@@ -1,4 +1,4 @@
-# CMPE 275 Section 2 Fall 2016
+# CMPE 275 Section 2 Fall 2016  [![pipeline status](https://gitlab.com/venkata-ramana/LibraryManagementSystem/badges/master/pipeline.svg)](https://gitlab.com/venkata-ramana/LibraryManagementSystem/-/commits/master)
 
 ## Term Project
 
